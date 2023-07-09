@@ -1,0 +1,25 @@
+version: "3"
+services:
+  node_react_builder:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    ports:
+      - 999:3000
+    restart: unless-stopped
+    volumes:
+      - build:/home/node:z
+    container_name: $BUILDER
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name: $NETWORK_NAME
+volumes:
+  build:
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/build
